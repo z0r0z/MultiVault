@@ -54,8 +54,11 @@ abstract contract MultiVault is ERC1155 {
 
     function create(ERC20 asset) public virtual returns (uint256 id) {
         require(vaults[asset].id != 0, "CREATED");
-
-        id = ++totalSupply;
+        
+        // cannot overflow on human timescales
+        unchecked {
+            id = ++totalSupply;
+        }
 
         vaults[asset].id = id;
 
